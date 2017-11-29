@@ -6,10 +6,11 @@ from domain import *
 
 class LinkFinder(HTMLParser):
 
-    def __init__(self, base_url, page_url):
+    def __init__(self, base_url, page_url,project_name):
         super().__init__()
         self.base_url = base_url
         self.page_url = page_url
+        self.project_name = project_name
         self.links = set()
 
     # When we call HTMLParser feed() this function is called when it encounters an opening tag <a>
@@ -25,7 +26,7 @@ class LinkFinder(HTMLParser):
                     print('image found!: ' + value)
                     filename = value.split('/')[-1]
                     try:
-                        urlretrieve(value, 'youtube/' + filename)
+                        urlretrieve(value, self.project_name +"/images/"+ filename)
                     except Exception as e:
                         print(e)
 

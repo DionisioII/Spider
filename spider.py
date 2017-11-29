@@ -1,3 +1,4 @@
+import urllib
 from urllib.request import urlopen
 from link_finder import LinkFinder
 from domain import *
@@ -27,6 +28,7 @@ class Spider:
     @staticmethod
     def boot():
         create_project_dir(Spider.project_name)
+        create_project_dir(Spider.project_name + "/images")
         create_data_files(Spider.project_name, Spider.base_url)
         Spider.queue = file_to_set(Spider.queue_file)
         Spider.crawled = file_to_set(Spider.crawled_file)
@@ -51,7 +53,8 @@ class Spider:
             if 'text/html' in response.getheader('Content-Type'):
                 html_bytes = response.read()
                 html_string = html_bytes.decode("utf-8")
-            finder = LinkFinder(Spider.base_url, page_url)
+
+            finder = LinkFinder(Spider.base_url, page_url,Spider.project_name)
             finder.feed(html_string)
         except Exception as e:
             print(str(e))
